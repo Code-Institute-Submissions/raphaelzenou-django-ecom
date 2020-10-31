@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 urlpatterns = [
     path('cart/', views.cart, name="cart"),
     path('update_cart/', views.update_cart, name="update_cart"),
+    path('list/', views.orders, name="orders"),
 
 ]
 if settings.DEBUG:

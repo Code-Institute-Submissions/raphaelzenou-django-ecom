@@ -91,8 +91,8 @@ def checkout_process(request):
             order.save()
 
             # emptying cart and other session info
-            for key in list(request.session.keys()):
-                del request.session[key]
+           
+            del request.session['cart_session']
             
             return JsonResponse('Order processed', safe=False)
 

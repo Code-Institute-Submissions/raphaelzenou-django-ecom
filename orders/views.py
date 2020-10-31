@@ -89,3 +89,19 @@ def update_cart(request):
 
     return JsonResponse('Order product quantity updated', safe=False)
 
+
+def orders(request):
+
+    if request.user.is_authenticated:
+        orders = Order.objects.filter(user=request.user, in_cart=False)
+        context = {
+            'page': 'Orders',
+            'user': request.user,
+            'orders': orders,
+        }
+        return render(request, 'orders/orders.html', context)
+    else:
+        context = {
+            'page': 'Cart',
+        }
+        return render(request, 'orders/cart.html', context)

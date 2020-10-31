@@ -30,10 +30,13 @@
         </div>
         <div class="row mb-5 profile-bottom">
             <div class="col button-profile-container">
-                <a href="/customers/editprofile"><button class="btn btn-secondary button-default button-profile">Edit Profile</button></a>
+                <a href="{% url 'editprofile' %}"><button class="btn btn-secondary button-default button-profile">Edit Profile</button></a>
             </div>
             <div class="col button-profile-container">
                 <a href="{% url 'logout' %}"><button class="btn btn-danger button-profile">Logout</button></a>
+            </div>
+            <div class="col button-profile-container">
+                <a href="{% url 'orders' %}"><button class="btn btn-secondary button-default button-profile">Order List</button></a>
             </div>
         </div>
     <div>
