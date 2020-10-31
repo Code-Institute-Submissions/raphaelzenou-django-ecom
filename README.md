@@ -16,6 +16,7 @@ Mock up Ecommerce website built with:
 * Authentication system including password reset and basic profile editing
 * Dynamically refreshed cart where quantities can be amended in a convenient manner
 * Checkout process
+* Basic orders list
 
 ### Features Left to Implement
 
