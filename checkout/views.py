@@ -72,3 +72,21 @@ def checkout(request):
             }
 
         return render(request, 'checkout/checkout.html', context)
+
+def checkout_success(request):
+    context = global_context(request)['global_context']
+    order_id_session = context['order_id']
+    order = get_object_or_404(Order, id=order_id_session , 
+            in_cart=True)
+    order.in_cart = False
+    order.paid = True
+    order.save()
+
+    # emptying cart and other session info
+    for key in list(request.session.keys()):
+        del request.session[key]
+
+    context = {
+        'order': order,
+    }
+    return render(request, 'checkout/checkout_success.html', context)
