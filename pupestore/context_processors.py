@@ -3,14 +3,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from orders.models import Order, OrderProduct
 from products.models import Product
-import uuid
-
-def is_valid_uuid(val):
-    try:
-        uuid.UUID(str(val))
-        return True
-    except ValueError:
-        return False
+from storemain.utils import is_valid_uuid
 
 def global_context(request):
     # context processor for all pages
@@ -46,19 +39,7 @@ def global_context(request):
         free_delivery_delta = 0
     
     get_all_in_value = delivery + get_value
-        
-    global_context = {
-        'cart_session': cart_session,
-        'cart_items': cart_items,
-        'get_value': get_value,
-        'get_quantity': get_quantity,
-        'delivery': delivery,
-        'free_delivery_delta': free_delivery_delta,
-        'free_delivery_threshold': settings.FREE_DELIVERY_THRESHOLD,
-        'get_all_in_value': get_all_in_value,
-        'current_page':request.path,
-        'shipping_required': shipping_required,
-    }
+    order_id = request.session.get('order_id', None)
 
     if request.user.is_authenticated:
 
@@ -77,8 +58,6 @@ def global_context(request):
                     orderproduct, created = OrderProduct.objects.get_or_create(order=order, product=product)
                     orderproduct.quantity = cart_session[cart_session_item_id]
                     orderproduct.save()
-                    # del cart_session[cartSessionItem]
-                    # request.session.modified = True
 
         # check if there is anything in 
         # the persisting cart 
@@ -86,6 +65,7 @@ def global_context(request):
         # cart items are not reintegrated here
         # as 'in cart' order takes priority vs session 
         # when user is logged in
+        order_id = order.id
         get_quantity = order.get_quantity
         order.delivery_cost = delivery
         order.shipping_required = shipping_required
@@ -102,6 +82,7 @@ def global_context(request):
     'get_all_in_value': get_all_in_value,
     'current_page':request.path,
     'shipping_required': shipping_required,
+    'order_id': order_id,
     }
 
     return {'global_context': global_context}
