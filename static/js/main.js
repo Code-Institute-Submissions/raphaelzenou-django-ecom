@@ -125,3 +125,62 @@ const checkoutSuccess = () => {
     };
 
 
+// STRIPE
+
+const stripe_public_key = document.getElementById('id_stripe_public_key').text.slice(1,-1);
+const client_secret = document.getElementById('id_client_secret').text.slice(1,-1);
+const stripe = Stripe('pk_test_51Hi6LFDDD97ZCNGjD6DE5mugRDYZlOFFUH4FuFcZFC97o4irRekvtKVj7bhspgsJQFKWdx246tIo3r6oqwz9qJIP00lGU38zXL');
+const elements = stripe.elements();
+const card = elements.create('card', {
+    style: {
+      base: {
+        iconColor: '#c4f0ff',
+        color: '#fff',
+        fontWeight: 500,
+        fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+        fontSize: '16px',
+        fontSmoothing: 'antialiased',
+        ':-webkit-autofill': {
+          color: '#fce883',
+        },
+        '::placeholder': {
+          color: '#87BBFD',
+        },
+      },
+      invalid: {
+        iconColor: '#FFC7EE',
+        color: '#FFC7EE',
+      },
+    },
+  });
+card.mount('#card-element');
+
+const checkoutButton = document.getElementById('checkout-button');
+
+checkoutButton.addEventListener('click', () => {
+    // Create a new Checkout Session using the server-side endpoint you
+    // created in step 3.
+    fetch('/create-checkout-session', {
+      method: 'POST',
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(session) {
+      return stripe.redirectToCheckout({ sessionId: session.id });
+    })
+    .then(function(result) {
+      // If `redirectToCheckout` fails due to a browser or network
+      // error, you should display the localized error message to your
+      // customer using `error.message`.
+      if (result.error) {
+        alert(result.error.message);
+      }
+    })
+    .catch(function(error) {
+      console.error('Error:', error);
+    });
+  });
+
+
+

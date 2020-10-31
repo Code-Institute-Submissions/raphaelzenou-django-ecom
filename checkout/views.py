@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, reverse
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -9,21 +10,22 @@ from pupestore.context_processors import global_context
 from storemain.utils import is_valid_uuid
 import uuid
 import json
+import stripe
 
 def checkout(request):
 
     context = global_context(request)['global_context']
     cart_session = context['cart_session']
     order_id_session = context['order_id']
-    print('CONTEXT ORDER ID')
-    print('')
-    print(order_id_session )
-    print('')
-    print('CART SESH ')
-    print('')
-    print(cart_session )
-    print('')
+    stripe_total = round(context['get_value']  * 100)
 
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+    )
+    print(intent)
+    
     if context['get_quantity'] == 0 or \
         context['get_value']  == 0:
         # or len(list(cart_session.keys())) < 1:
@@ -41,8 +43,6 @@ def checkout(request):
             in_cart=True)
 
         else:
-            print('order ID sessions')
-            print(order_id_session)
     
             if order_id_session != None:
                 order = get_object_or_404(Order, id=order_id_session , 
@@ -63,14 +63,15 @@ def checkout(request):
                     orderproduct.quantity = cart_session[cart_session_item_id]
                     orderproduct.save()
 
-            order_form = OrderForm()
-
             # for a guest order 'in cart' to persist during the session
             request.session['order_id'] = context['order_id'] 
 
             context = {
                 'order_form' : order_form,
                 'order' : order,
+                'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                'client_secret': intent.client_secret,
+               
             }
 
         return render(request, 'checkout/checkout.html', context)

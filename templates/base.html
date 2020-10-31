@@ -118,6 +118,12 @@
         const user = "{{ request.user.id }}";
         const isUserAuthenticated = "{{user.is_authenticated}}";
     </script>
+
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    {% block postloadjs %}{% endblock %}
+
 </body>
 
 

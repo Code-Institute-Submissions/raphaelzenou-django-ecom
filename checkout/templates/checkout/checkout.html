@@ -79,7 +79,12 @@
                 <form id="checkoutForm">
                     <label for="email">Email:</label>
                     <input id="email" name="email" placeholder="email..." value="">
-                    <input type="submit" class="btn btn-primary button-default" value="Confirm and Pay">
+                    <div id='card-element'>
+                    <div>
+
+                    <input type="submit" class="btn btn-primary button-default" value="Confirm">
+                    <button id="checkout-button">Pay</button>
+
                 </form>
             </div>
         </div>
@@ -90,4 +95,8 @@
         </div>
     <div>
 {% endblock content %}
-    
+
+{% comment %} {% block postloadjs %}
+    {{ stripe_public_key<span id="id_stripe_public_key"
+    {{ client_secret|json_script:"id_client_secret" }}
+{% endblock %} {% endcomment %}
