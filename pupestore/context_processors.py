@@ -87,7 +87,6 @@ def global_context(request):
         # as 'in cart' order takes priority vs session 
         # when user is logged in
         get_quantity = order.get_quantity
-            
         order.delivery_cost = delivery
         order.shipping_required = shipping_required
         order.save()

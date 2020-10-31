@@ -85,21 +85,9 @@ WSGI_APPLICATION = 'pupestore.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-# PostgreSQL Elephantsql DB setup
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME'),
-        'USER' : os.getenv('DB_USER'),
-        'PASSWORD' : os.getenv('DB_PASSWORD'),
-        'HOST' : os.getenv('DB_HOST'),
-    }
-}
-
-# DATABASES = {'default': dj_database_url.config(
-#     default=os.getenv('DATABASE_URL'))}
+# PostgreSQL Heroku DB setup
+DATABASES = {'default': dj_database_url.config(
+    default=os.getenv('DATABASE_URL'))}
 
 # Custom user model
 # https://www.kite.com/blog/python/custom-django-user-model/

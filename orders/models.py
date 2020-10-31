@@ -26,7 +26,7 @@ class Order(models.Model):
     city = models.CharField(max_length=100, unique=False)
     county_state = models.CharField(max_length=100, unique=False, blank=True)
     country = models.CharField(max_length=100, unique=False)
-    delivery_cost = models.DecimalField(max_digits=7, decimal_places=2)
+    delivery_cost = models.DecimalField(max_digits=7, decimal_places=2, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     shipping_required = models.BooleanField(default=False)
