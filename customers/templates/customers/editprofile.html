@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="editprofile container"> 
+        <h2 class="page-title">{{ page }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" class="btn btn-secondary button-default" value="Save">
+        </form>     
+        <div class="button-profile-container">
+            <a href="{% url 'password_reset' %}"><button class="btn btn-secondary button-default button-profile">Reset Password</button></a>
+        </div>
+        <div class="button-profile-container">
+            <a href="{% url 'profile' %}"><button class="btn btn-secondary button-default button-profile">Back</button></a>
+        </div>
+    <div>
+{% endblock content %}
+    

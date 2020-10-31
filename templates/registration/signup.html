@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="signup container">
+
+     <div class="row">
+        <div class="col">
+             <h2>Sign Up</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <form method="post" class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-secondary button-default" type="submit">Sign Up!</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p>Already have an account ? Please <a href="{% url 'login' %}">Sign In</a> here. </p>
+        </div>
+    </div>
+
+<div>
+{% endblock content %}
+    

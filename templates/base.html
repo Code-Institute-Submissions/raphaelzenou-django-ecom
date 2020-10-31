@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8e794b2fe2.js" crossorigin="anonymous"></script>
+
+    <title>{% block title %}{{page}}{% endblock %} </title>
+
+</head>
+
+<body>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top">
+
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'img/pupestore_logo_transparent_with_text_white_line_rectangular.png' %}"  height="40"
+                class="d-inline-block align-top" alt="pup e-Store">
+        </a>
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-trigger="#menuItems">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="navbar-collapse" id="menuItems">
+            <div class="offcanvas-header mt-3">  
+                <button class="btn btn-outline-light btn-close float-right"> &times Close </button>
+              </div>
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {% if page == 'Home' %} active {% endif %}" > 
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item {% if page == 'Products' %} active {% endif %}" > 
+                    <a class="nav-link" href="/products">Products</a>
+                </li>
+                <li class="nav-item {% if page == 'About us' %} active {% endif %}" > 
+                    <a class="nav-link" href="/about-us">About us</a>
+                </li>
+            </ul>
+            <!-- Links -->
+            <div class="nav-item right-action-item">
+                <a href="/customers/profile" class="btn btn-outline-light button-profile-login"><i class="fas fa-user-circle"></i> 
+                {% if user.is_authenticated %}
+                    Your Profile
+                {% else %}
+                    Sign In
+                {% endif %}
+                </a>
+            </div>
+            <div class="nav-item right-action-item shopping-cart-container">
+                <a href="{% url 'cart' %}" class="shopping-cart"><i class="fas fa-shopping-cart cart-icon"><span class="cart-items">{{global_context.get_quantity}}</span></i></a>
+            </div>
+
+
+        </div>
+        <!-- Collapsible content -->
+
+    </nav>
+    <!--/.Navbar-->
+
+    <div class="container content">
+        <div class="row">
+            <div class="col">
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            {% autoescape off %}
+                            <div class="alert alert-{{ message.tags }}"> {{ message }}</div>
+                            {% endautoescape %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+       
+    </div>
+
+     <footer class="container-fluid text-center fixed-bottom">
+        <div class="footer row mt-1 mb-1">
+            <div class="footer-item col-md-4">
+            </div>
+            <div class="footer-item col-md-4">
+                <small>Pup e-Store</small>
+            </div>
+            <div class="footer-item footer-logout col-md-4">
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS - 2 following script tags -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript">
+        const user = "{{ request.user.id }}";
+        const isUserAuthenticated = "{{user.is_authenticated}}";
+    </script>
+</body>
+
+
+</html>

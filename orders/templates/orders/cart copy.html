@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="cart-container container"> 
+         <div class="row">
+            <div class="col">
+                <h2 class="page-title">{{ page }}</h2>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col info-container cart-info-container">
+                <div class="row info-items cart-info">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <span>Customer: </span>
+                                <span>{{ user.first_name }}</span>
+                                <span>{{ user.last_name }}</span>
+                            </div>
+                        </div>
+                        {% for orderproduct in orderproducts %}
+                        <div class="row">
+                            <div class="col">
+                                <span data-pageurl= {{ global_context.current_page }} data-pagename="{{page}}" data-productid="{{orderproduct.product.id}}" data-cartaction="add" class="cart-action cart-action-add"><i class="fas fa-plus-circle"></i></span>
+                                <span> {{ orderproduct.quantity }}</span>
+                                <span data-pageurl= {{ global_context.current_page }} data-pagename="{{page}}" data-productid="{{orderproduct.product.id}}" data-cartaction="remove" class="cart-action"><i class="fas fa-minus-circle"></i></span>
+                                <span> {{ orderproduct.product.title }}</span>
+                                <span> @ £{{ orderproduct.product.price_in_base_currency }}</span>
+                                <span> | £{{ orderproduct.get_value }}</span>
+
+                                <span data-pageurl= {{ global_context.current_page }} data-pagename="{{page}}" data-productid="{{orderproduct.product.id}}" data-cartaction="delete" class="cart-action"><i class="fas fa-times-circle"></i></span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col">
+                                <span>Number of Items </span>
+                                <span> {{ order.get_quantity }}</span>
+                            </div>
+                        </div>
+
+                       <div class="row">
+                            <div class="col">
+                                <span>Total in GBP </span>
+                                <span> {{ order.get_value|floatformat:2}}</span>
+                            </div>
+                        </div> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col button-checkout-container">
+                <a href="{% url 'checkout' %}"><button class="btn btn-primary button-default">Checkout</button></a>
+            </div>
+        </div>
+    <div>
+{% endblock content %}
+    

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="cart-container container"> 
+         <div class="row">
+            <div class="col">
+                <h2 class="page-title">{{ page }}</h2>
+            </div>
+         </div>
+        <div class="row">
+            <div class="col info-container cart-info-container">
+                <div class="row info-items cart-info">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <span>Customer: </span>
+                                <span>{{ user.first_name }}</span>
+                                <span>{{ user.last_name }}</span>
+                            </div>
+                        </div>
+                        {% for orderproduct in orderproducts %}
+                        <div class="row">
+                            <div class="col">
+                                <span> {{ orderproduct.quantity }}</span>
+                                <span> {{ orderproduct.product.title }}</span>
+                                <span> @ £{{ orderproduct.product.price_in_base_currency }}</span>
+                                <span> | £{{ orderproduct.get_value }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col">
+                                <span>Number of Items </span>
+                                <span> {{ order.get_quantity }}</span>
+                            </div>
+                        </div>
+
+                       <div class="row">
+                            <div class="col">
+                                <span>Total in GBP </span>
+                                <span> {{ order.get_value|floatformat:2}}</span>
+                            </div>
+                        </div> 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col info-container cart-info-container mt-3">
+                <div class="row info-items cart-info">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <span id="billing-address-title">Billing and Shipping Addresses</span>
+                                <div class="form-field">
+                                    <input class="form-control" type="text" name="billing_firstname" placeholder="First name">
+                                    <input class="form-control" type="text" name="billing_lastname" placeholder="Last name">
+                                </div>
+                                <div class="form-field">
+                                    <input class="form-control" type="text" name="billing_address" placeholder="Address">
+                                </div>
+                                 <div class="form-field">
+                                    <input class="form-control" type="text" name="billing_postcode" placeholder="Postcode">
+                                </div>
+                                 <div class="form-field">
+                                    <input class="form-control" type="text" name="billing_city" placeholder="City">
+                                </div>
+                                 <div class="form-field">
+                                    <input class="form-control" type="text" name="billing_state" placeholder="State / County">
+                                </div>
+                                <div class="form-field">
+                                    <input class="form-control" type="text" name="billing_country" placeholder="Country">
+                                </div>
+                              
+                                {% comment %} 
+                                billing_address = models.CharField(max_length=100, unique=False)
+                                billing_postcode = models.CharField(max_length=100, unique=False)
+                                billing_city = models.CharField(max_length=100, unique=False)
+                                billing_state = models.CharField(max_length=100, unique=False, blank=True)
+                                billing_country = models.CharField(max_length=100, unique=False) 
+                                {% endcomment %}
+                            </div>
+                        </div>
+                        {% if order.get_shipping %}
+                        <div class="row">
+                            <div class="col">
+                                <input type="checkbox" name="check1" value="checkbox" onchange="onChangeCheckBox('shipping-address-container-id', 'billing-address-title')" /> Shipping different than billing ? 
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+        <div id="shipping-address-container-id" class="row" style="display:none;">
+            <div class="col info-container cart-info-container mt-3">
+                <div class="row info-items cart-info">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <span> Shipping Address </span>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="shipping_firstname" placeholder="First name">
+                            <input class="form-control" type="text" name="shipping_lastname" placeholder="Last name">
+                        </div>
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="shipping_address" placeholder="Address">
+                        </div>
+                            <div class="form-field">
+                            <input class="form-control" type="text" name="shipping_postcode" placeholder="Postcode">
+                        </div>
+                            <div class="form-field">
+                            <input class="form-control" type="text" name="shipping_city" placeholder="City">
+                        </div>
+                            <div class="form-field">
+                            <input class="form-control" type="text" name="shipping_state" placeholder="State / County">
+                        </div>
+                        <div class="form-field">
+                            <input class="form-control" type="text" name="shipping_country" placeholder="Country">
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col button-checkout-container">
+                <a href="/orders/cart/"><button class="btn btn-primary button-default">Edit</button></a>
+            </div>
+            <div class="col button-checkout-container">
+                <a href="/orders/pay/"><button class="btn btn-success">Confirm</button></a>
+            </div>
+        </div>
+    <div>
+{% endblock content %}
+    
