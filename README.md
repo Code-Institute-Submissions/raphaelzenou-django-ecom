@@ -1,5 +1,7 @@
 # Django Ecommerce
 
+https://pupestore.herokuapp.com/
+
 Mock up Ecommerce website built with: 
 * Python, Django and PostgreSQL in the backend
 * Javascript, HTML, CSS, Bootstrap in the frontend
