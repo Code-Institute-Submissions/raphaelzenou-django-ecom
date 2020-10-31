@@ -43,6 +43,9 @@ Notably by using editor rulers in VSCode's settings
 https://devcenter.heroku.com/articles/django-app-configuration
 https://devcenter.heroku.com/articles/django-assets
 
+https://stackoverflow.com/questions/50346326/programmingerror-relation-django-session-does-not-exist/50346820
+
+
 
 ## Credits
 

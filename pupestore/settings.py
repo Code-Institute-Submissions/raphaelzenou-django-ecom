@@ -1,9 +1,12 @@
 import os
-import django_heroku
+from pathlib import Path
+# ENVIRONMENT VARIABLES
 from dotenv import load_dotenv
 load_dotenv()
-
-from pathlib import Path
+# HEROKU DEPLOYMENT
+import django_heroku
+# DATABASE
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -94,6 +97,9 @@ DATABASES = {
         'HOST' : os.getenv('DB_HOST'),
     }
 }
+
+# DATABASES = {'default': dj_database_url.config(
+#     default=os.getenv('DATABASE_URL'))}
 
 # Custom user model
 # https://www.kite.com/blog/python/custom-django-user-model/
