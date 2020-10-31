@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from products.models import Product
 from orders.models import Order, OrderProduct
 from .forms import OrderForm
 from pupestore.context_processors import global_context 
 from storemain.utils import is_valid_uuid
 import uuid
+import json
 
 def checkout(request):
 
@@ -73,20 +75,34 @@ def checkout(request):
 
         return render(request, 'checkout/checkout.html', context)
 
+def checkout_process(request):
+
+        if request.method == "POST": 
+            data = json.loads(request.body)
+            email = data['email']
+
+            context = global_context(request)['global_context']
+            order_id_session = context['order_id']
+            order = get_object_or_404(Order, id=order_id_session , 
+                    in_cart=True)
+            order.in_cart = False
+            order.paid = True
+            order.email = email
+            order.save()
+
+            # emptying cart and other session info
+            for key in list(request.session.keys()):
+                del request.session[key]
+            
+            return JsonResponse('Order processed', safe=False)
+
 def checkout_success(request):
-    context = global_context(request)['global_context']
-    order_id_session = context['order_id']
-    order = get_object_or_404(Order, id=order_id_session , 
-            in_cart=True)
-    order.in_cart = False
-    order.paid = True
-    order.save()
 
-    # emptying cart and other session info
-    for key in list(request.session.keys()):
-        del request.session[key]
+        messages.success(request, 'Order successfully completed!')
+        return redirect('index')
 
-    context = {
-        'order': order,
-    }
-    return render(request, 'checkout/checkout_success.html', context)
+
+def checkout_failure(request):
+
+        messages.warning(request, 'Checkout failed please try again!')
+        return redirect('checkout')

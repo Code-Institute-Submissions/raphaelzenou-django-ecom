@@ -73,9 +73,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col">
+                <form id="checkoutForm">
+                    <label for="email">Email:</label>
+                    <input id="email" name="email" placeholder="email..." value="">
+                    <input type="submit" class="btn btn-primary button-default" value="Confirm and Pay">
+                </form>
+            </div>
+        </div>
         <div class="row">
             <div class="col button-checkout-container">
-                <a href="{% url 'checkout_success' %}"><button class="btn btn-primary button-default">Confirm and Pay</button></a>
+                {% comment %} <a href="{% url 'checkout_success' %}"><button onClick class="btn btn-primary button-default">Confirm and Pay</button></a> {% endcomment %}
             </div>
         </div>
     <div>

@@ -40,6 +40,10 @@ h2.page-title {
   padding: var(--wide-spacing); 
 }
 
+.alert {    
+    margin-bottom: 0;
+}
+
 .content {
     padding:64px 0 22px 0;
     background-color: var(--light-bg-color);

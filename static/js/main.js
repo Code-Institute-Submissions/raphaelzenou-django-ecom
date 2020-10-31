@@ -89,25 +89,39 @@ if (messages) {
 
 // CHECKOUT
 
-const onChangeCheckBox = (shippingAddressId, billingAddressId) => {
-    
-    const checkbox = document.getElementById(shippingAddressId).style.display;
-    let visible = 'none';
-        if(checkbox=='none'){
-         visible = 'block'; }
-        if(checkbox=='block'){
-         visible = 'none'; }
 
-    const currentTitle = document.getElementById(billingAddressId).textContent;
-    const initialTitle = 'Billing and Shipping Addresses';
-    let newTitle = initialTitle;
-    if (currentTitle === initialTitle) {
-        newTitle = 'Billing Address'
-    } else {
-        newTitle = initialTitle
-    }
+const checkoutForm = document.getElementById( "checkoutForm" );
 
-    document.getElementById(shippingAddressId).style.display = visible;
-    document.getElementById(billingAddressId).innerText = newTitle;
+// ...and take over its submit event.
+checkoutForm.addEventListener( "submit", event => {
+  event.preventDefault();
+  checkoutSuccess();
+} );
 
-}
+const checkoutSuccess = () => {
+    alert('yallah')
+    var email = document.getElementById('email').value;
+
+    fetch('/checkout/process/', 
+    {
+        method: 'POST',
+        mode: 'same-origin',
+        headers: {
+            'Content-Type':'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+            'email': email,
+        })
+    })
+    .then(response => {
+        window.location = window.location.href + 'success/'
+        // return response.json();
+    }).catchj(errror => {
+        window.location = window.location.href + 'failure/'
+    });
+    // .then(data => {
+    // });
+    };
+
+
