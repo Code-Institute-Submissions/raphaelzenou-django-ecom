@@ -81,6 +81,14 @@ def checkout_process(request):
         if request.method == "POST": 
             data = json.loads(request.body)
             email = data['email']
+            firstName =  data['firstName']
+            lastName =  data['lastName']
+            address =  data['address']
+            postcode =  data['postcode']
+            city =  data['city']
+            countyState = data['countyState']
+            country = data['country']
+
 
             context = global_context(request)['global_context']
             order_id_session = context['order_id']
@@ -89,6 +97,13 @@ def checkout_process(request):
             order.in_cart = False
             order.paid = True
             order.email = email
+            order.first_name =  firstName
+            order.last_name =  lastName
+            order.address =  address
+            order.postcode =  postcode
+            order.city =  city
+            order.countyState = countyState
+            order.country = country
             order.save()
 
             # emptying cart and other session info

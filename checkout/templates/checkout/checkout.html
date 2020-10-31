@@ -43,14 +43,10 @@
                             {% for item in global_context.cart_items %}
                                 <div class="row">
                                     <div class="col">
-                                        <span data-pageurl= {{ global_context.current_page }} data-pagename="{{page}}" data-productid="{{item.id}}" data-cartaction="add" class="cart-action cart-action-add"><i class="fas fa-plus-circle"></i></span>
                                         <span> {{ item.get_quantity }}</span>
-                                        <span data-pageurl= {{ global_context.current_page }} data-pagename="{{page}}" data-productid="{{item.id}}" data-cartaction="remove" class="cart-action"><i class="fas fa-minus-circle"></i></span>
                                         <span> {{ item.product.title }}</span>
                                         <span> @ £{{ item.product.price_in_base_currency }}</span>
                                         <span> | £{{ item.get_value }}</span> 
-
-                                        <span data-pageurl= {{ global_context.current_page }} data-pagename="{{page}}" data-productid="{{item.id}}" data-cartaction="delete" class="cart-action"><i class="fas fa-times-circle"></i></span>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -58,14 +54,14 @@
                         <div class="row">
                             <div class="col">
                                 <span>Number of Items </span>
-                                <span> {{ global_context.cart_session.get_quantity }}</span>
+                                <span> {{ global_context.get_quantity }}</span>
                             </div>
                         </div>
 
                        <div class="row">
                             <div class="col">
                                 <span>Total in GBP </span>
-                                <span> {{ global_context.cart_session.get_value|floatformat:2}}</span>
+                                <span> {{ global_context.get_value|floatformat:2}}</span>
                             </div>
                         </div> 
 
@@ -74,16 +70,23 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-4 mb-4">
             <div class="col">
                 <form id="checkoutForm">
-                    <label for="email">Email:</label>
-                    <input id="email" name="email" placeholder="email..." value="">
+                    <input id="email" name="email" placeholder="Email..." value="">
+                    <input id="first_name" name="first_name" placeholder="First Name ..." value="">
+                    <input id="last_name" name="last_name" placeholder="Last Name..." value="">
+                    <input id="address" name="address" placeholder="Address..." value="">
+                    <input id="postcode" name="postcode" placeholder="Postcode..." value="">
+                    <input id="city" name="city" placeholder="City..." value="">
+                    <input id="county_state" name="county_state" placeholder="County / State..." value="">
+                    <input id="country" name="country" placeholder="Country..." value="">
+
                     <div id='card-element'>
                     <div>
 
-                    <input type="submit" class="btn btn-primary button-default" value="Confirm">
-                    <button id="checkout-button">Pay</button>
+                    <input type="submit" class=" mt-4 mb-4 btn btn-primary button-default" value="Confirm">
+                    {% comment %} <button id="checkout-button">Pay</button> {% endcomment %}
 
                 </form>
             </div>

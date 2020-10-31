@@ -99,8 +99,14 @@ checkoutForm.addEventListener( "submit", event => {
 } );
 
 const checkoutSuccess = () => {
-    alert('yallah')
-    var email = document.getElementById('email').value;
+    const email = document.getElementById('email').value;
+    const firstName = document.getElementById('first_name').value;
+    const lastName = document.getElementById('last_name').value;
+    const address = document.getElementById('address').value;
+    const postcode = document.getElementById('postcode').value;
+    const city = document.getElementById('city').value;
+    const countyState = document.getElementById('county_state').value;
+    const country = document.getElementById('country').value;
 
     fetch('/checkout/process/', 
     {
@@ -112,6 +118,13 @@ const checkoutSuccess = () => {
         },
         body: JSON.stringify({
             'email': email,
+            'firstName': firstName,
+            'lastName': lastName,
+            'address': address,
+            'postcode': postcode,
+            'city': city,
+            'countyState':countyState,
+            'country':country,
         })
     })
     .then(response => {
